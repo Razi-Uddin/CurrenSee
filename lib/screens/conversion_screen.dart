@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:currensee/currency_service.dart';
+=======
+import 'package:firebase_auth/firebase_auth.dart';
+import '../currency_service.dart';
+import '../database_service.dart';
+>>>>>>> 5534113 (Initial commit)
 
 class ConversionScreen extends StatefulWidget {
   @override
@@ -8,10 +14,18 @@ class ConversionScreen extends StatefulWidget {
 
 class _ConversionScreenState extends State<ConversionScreen> {
   final CurrencyService _service = CurrencyService();
+<<<<<<< HEAD
   final TextEditingController _amountController = TextEditingController();
 
   String _baseCurrency = 'USD';   // Base currency is USD
   String _targetCurrency = 'EUR'; // Default target currency is EUR
+=======
+  final DatabaseService _dbService = DatabaseService();
+  final TextEditingController _amountController = TextEditingController();
+
+  String _baseCurrency = 'USD';
+  String _targetCurrency = 'EUR';
+>>>>>>> 5534113 (Initial commit)
   double _conversionResult = 0.0;
   List<String> _currencies = [];
 
@@ -21,7 +35,10 @@ class _ConversionScreenState extends State<ConversionScreen> {
     _fetchCurrencies();
   }
 
+<<<<<<< HEAD
   // Fetch currency rates and populate the currency list
+=======
+>>>>>>> 5534113 (Initial commit)
   Future<void> _fetchCurrencies() async {
     try {
       final data = await _service.fetchRates(baseCurrency: _baseCurrency);
@@ -35,11 +52,16 @@ class _ConversionScreenState extends State<ConversionScreen> {
     }
   }
 
+<<<<<<< HEAD
   // Convert the entered amount to target currency
   Future<void> _convertCurrency() async {
     if (_amountController.text.isEmpty) {
       return;
     }
+=======
+  Future<void> _convertCurrency() async {
+    if (_amountController.text.isEmpty) return;
+>>>>>>> 5534113 (Initial commit)
 
     final amount = double.tryParse(_amountController.text);
     if (amount == null) {
@@ -55,6 +77,21 @@ class _ConversionScreenState extends State<ConversionScreen> {
       setState(() {
         _conversionResult = amount * rate;
       });
+<<<<<<< HEAD
+=======
+
+      // Save to Firestore
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await _dbService.saveConversion(
+          userId: user.uid,
+          baseCurrency: _baseCurrency,
+          targetCurrency: _targetCurrency,
+          amount: amount,
+          conversionResult: _conversionResult,
+        );
+      }
+>>>>>>> 5534113 (Initial commit)
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error converting currency: $e")),
@@ -79,6 +116,7 @@ class _ConversionScreenState extends State<ConversionScreen> {
               decoration: InputDecoration(labelText: "Enter amount in $_baseCurrency"),
             ),
             const SizedBox(height: 16),
+<<<<<<< HEAD
             // Base currency dropdown
             DropdownButton<String>(
               value: _baseCurrency,
@@ -107,10 +145,30 @@ class _ConversionScreenState extends State<ConversionScreen> {
               onChanged: _currencies.isEmpty
                   ? null
                   : (value) {
+=======
+            DropdownButton<String>(
+              value: _baseCurrency,
+              onChanged: (value) {
+                setState(() {
+                  _baseCurrency = value!;
+                  _fetchCurrencies();
+                });
+              },
+              items: _currencies.map((currency) => DropdownMenuItem(
+                value: currency,
+                child: Text(currency),
+              )).toList(),
+            ),
+            const SizedBox(height: 16),
+            DropdownButton<String>(
+              value: _targetCurrency,
+              onChanged: (value) {
+>>>>>>> 5534113 (Initial commit)
                 setState(() {
                   _targetCurrency = value!;
                 });
               },
+<<<<<<< HEAD
               items: _currencies.isEmpty
                   ? []
                   : _currencies
@@ -120,6 +178,12 @@ class _ConversionScreenState extends State<ConversionScreen> {
               ))
                   .toList(),
               hint: const Text("Loading..."),
+=======
+              items: _currencies.map((currency) => DropdownMenuItem(
+                value: currency,
+                child: Text(currency),
+              )).toList(),
+>>>>>>> 5534113 (Initial commit)
             ),
             const SizedBox(height: 16),
             ElevatedButton(

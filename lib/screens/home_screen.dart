@@ -15,10 +15,14 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
+<<<<<<< HEAD
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               Navigator.pushReplacementNamed(context, '/login');
             },
+=======
+            onPressed: () => _showLogoutConfirmation(context),
+>>>>>>> 5534113 (Initial commit)
           ),
         ],
       ),
@@ -66,9 +70,46 @@ class HomeScreen extends StatelessWidget {
               onPressed: () => Navigator.pushNamed(context, '/convert'),
               child: const Text("Convert Currency"),
             ),
+<<<<<<< HEAD
+=======
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/history'),
+              child: const Text("View Conversion History"),
+            ),
+>>>>>>> 5534113 (Initial commit)
           ],
         ),
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+
+  void _showLogoutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Logout Confirmation"),
+          content: const Text("Are you sure you want to logout?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacementNamed(context, '/login');
+              },
+              child: const Text("Logout"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+>>>>>>> 5534113 (Initial commit)
